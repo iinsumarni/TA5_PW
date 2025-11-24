@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pink Modern Layout</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        'glass': 'rgba(255, 255, 255, 0.65)',
+                        'primary': '#ff5e99', 
+                        'primary-dark': '#db2777',
+                    },
+                    animation: { 'blob': 'blob 7s infinite' },
+                    keyframes: {
+                        blob: {
+                            '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                            '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                            '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                            '100%': { transform: 'translate(0px, 0px) scale(1)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { background: linear-gradient(135deg, #ffe6fa 0%, #ffd1e8 100%); }
+        
+        /* Hide Scrollbar */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Glassmorphism */
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 0 20px 40px -5px rgba(255, 105, 180, 0.2);
+        }
+    </style>
+</head>
+<body class="h-screen w-full flex items-center justify-center overflow-hidden relative">
+
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+        <div class="absolute top-10 left-1/4 w-72 h-72 bg-pink-300 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob"></div>
+        <div class="absolute top-10 right-1/4 w-72 h-72 bg-purple-200 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-2000"></div>
+        <div class="absolute -bottom-8 left-1/3 w-72 h-72 bg-yellow-100 rounded-full mix-blend-multiply filter blur-2xl opacity-60 animate-blob animation-delay-4000"></div>
+    </div>
+
+    <div class="glass-panel w-full max-w-5xl h-[90vh] md:h-[85vh] rounded-[3rem] flex flex-col md:flex-row overflow-hidden relative p-2 gap-2">
+        
+        <div class="w-full md:w-[60%] p-6 md:p-8 flex flex-col justify-center h-full order-2 md:order-1 bg-white/30 rounded-[2.5rem]">
+            
+            <div class="flex justify-between mb-6 px-4 py-2 bg-white/40 rounded-full shadow-sm">
+                <button onclick="calc.memoryClear()" class="text-xs font-bold text-pink-400 hover:text-primary transition">MC</button>
+                <button onclick="calc.memoryRecall()" class="text-xs font-bold text-pink-400 hover:text-primary transition">MR</button>
+                <button onclick="calc.memoryPlus()" class="text-xs font-bold text-pink-400 hover:text-primary transition">M+</button>
+                <button onclick="calc.memoryMinus()" class="text-xs font-bold text-pink-400 hover:text-primary transition">M-</button>
+                <span id="memory-indicator" class="text-xs font-bold text-white bg-primary px-2 rounded-full opacity-0 transition-all">M</span>
+            </div>
+
+            <div class="grid grid-cols-4 gap-4 md:gap-5 h-full">
+                <button data-action="c" class="btn-round btn-func text-primary">AC</button>
+                <button data-action="ce" class="btn-round btn-func text-primary">CE</button>
+                <button data-action="delete" class="btn-round btn-func text-primary"><i class="fas fa-backspace"></i></button>
+                <button data-operation="÷" class="btn-round btn-ops">÷</button>
+
+                <button data-number="7" class="btn-round btn-num">7</button>
+                <button data-number="8" class="btn-round btn-num">8</button>
+                <button data-number="9" class="btn-round btn-num">9</button>
+                <button data-operation="×" class="btn-round btn-ops">×</button>
+
+                <button data-number="4" class="btn-round btn-num">4</button>
+                <button data-number="5" class="btn-round btn-num">5</button>
+                <button data-number="6" class="btn-round btn-num">6</button>
+                <button data-operation="-" class="btn-round btn-ops">-</button>
+
+                <button data-number="1" class="btn-round btn-num">1</button>
+                <button data-number="2" class="btn-round btn-num">2</button>
+                <button data-number="3" class="btn-round btn-num">3</button>
+                <button data-operation="+" class="btn-round btn-ops">+</button>
+
+                <button data-number="0" class="col-span-2 btn-pill btn-num pl-8 text-left">0</button>
+                <button data-number="." class="btn-round btn-num">.</button>
+                <button data-action="equals" class="btn-round bg-primary text-white hover:bg-primary-dark shadow-lg shadow-pink-300 border-none text-2xl">=</button>
+            </div>
+        </div>
+
+        <div class="w-full md:w-[40%] flex flex-col gap-2 h-full order-1 md:order-2">
+            
+            <div class="h-[35%] bg-gradient-to-br from-pink-50 to-white rounded-[2.5rem] p-6 flex flex-col justify-end items-end shadow-sm border border-white/60 relative overflow-hidden">
+                <div class="absolute top-4 left-4 text-xs font-bold text-primary tracking-widest opacity-50">DISPLAY</div>
+                <div data-previous-operand class="text-pink-300 text-lg font-medium h-8 mb-1 truncate w-full text-right"></div>
+                <div data-current-operand class="text-gray-800 text-5xl md:text-6xl font-bold tracking-tight truncate w-full text-right">0</div>
+            </div>
+
+            <div class="h-[65%] bg-white/40 backdrop-blur-md rounded-[2.5rem] p-6 flex flex-col shadow-inner border border-white/40 relative">
+                <div class="flex justify-between items-center mb-4 pb-2 border-b border-pink-100">
+                    <span class="text-xs font-bold text-primary tracking-widest flex items-center gap-2">
+                        <i class="fas fa-history"></i> HISTORY
+                    </span>
+                    <button onclick="calc.clearHistory()" class="text-[10px] bg-white px-2 py-1 rounded-full text-red-400 hover:text-red-600 shadow-sm transition">CLEAR</button>
+                </div>
+                
+                <div id="history-list" class="flex-grow overflow-y-auto no-scrollbar flex flex-col gap-3">
+                    <div class="flex flex-col items-center justify-center h-full text-gray-400 opacity-50">
+                        <i class="fas fa-calculator text-2xl mb-2"></i>
+                        <span class="text-xs">Belum ada data</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <style>
+        .btn-round {
+            @apply h-full w-full aspect-square rounded-2xl font-bold text-xl transition-all duration-200 flex items-center justify-center shadow-sm border border-white/60;
+        }
+        .btn-pill {
+            @apply h-full w-full rounded-2xl font-bold text-xl transition-all duration-200 flex items-center shadow-sm border border-white/60;
+        }
+        .btn-num {
+            @apply bg-white/70 hover:bg-white text-gray-600 active:scale-95 hover:shadow-md;
+        }
+        .btn-func {
+            @apply bg-pink-50/80 hover:bg-pink-100 text-gray-700 active:scale-95;
+        }
+        .btn-ops {
+            @apply bg-pink-200/80 text-primary hover:bg-pink-300 active:scale-95 shadow-sm border-none text-2xl;
+        }
+        /* Animasi item history */
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .history-item { animation: slideInRight 0.3s ease-out forwards; }
+    </style>
+
+    <script>
+        class Calculator {
+            constructor(previousOperandTextElement, currentOperandTextElement) {
+                this.previousOperandTextElement = previousOperandTextElement;
+                this.currentOperandTextElement = currentOperandTextElement;
+                this.memory = 0;
+                this.history = [];
+                this.clear();
+            }
+
+            clear() {
+                this.currentOperand = '0';
+                this.previousOperand = '';
+                this.operation = undefined;
+            }
+
+            clearEntry() { this.currentOperand = '0'; }
+
+            delete() {
+                if (this.currentOperand === '0') return;
+                if (this.currentOperand.length === 1) this.currentOperand = '0';
+                else this.currentOperand = this.currentOperand.toString().slice(0, -1);
+            }
+
+            appendNumber(number) {
+                if (number === '.' && this.currentOperand.includes('.')) return;
+                if (this.currentOperand === '0' && number !== '.') this.currentOperand = number.toString();
+                else this.currentOperand = this.currentOperand.toString() + number.toString();
+            }
+
+            chooseOperation(operation) {
+                if (this.currentOperand === '') return;
+                if (this.previousOperand !== '') this.compute();
+                this.operation = operation;
+                this.previousOperand = this.currentOperand;
+                this.currentOperand = '';
+            }
+
+            compute() {
+                let computation;
+                const prev = parseFloat(this.previousOperand);
+                const current = parseFloat(this.currentOperand);
+                if (isNaN(prev) || isNaN(current)) return;
+
+                switch (this.operation) {
+                    case '+': computation = prev + current; break;
+                    case '-': computation = prev - current; break;
+                    case '×': computation = prev * current; break;
+                    case '÷': 
+                        if(current === 0) { alert("Error"); this.clear(); return; }
+                        computation = prev / current; break;
+                    default: return;
+                }
+
+                this.addHistory(`${prev} ${this.operation} ${current}`, computation);
+                this.currentOperand = computation;
+                this.operation = undefined;
+                this.previousOperand = '';
+            }
+
+            getDisplayNumber(number) {
+                const stringNumber = number.toString();
+                const integerDigits = parseFloat(stringNumber.split('.')[0]);
+                const decimalDigits = stringNumber.split('.')[1];
+                let integerDisplay;
+                if (isNaN(integerDigits)) integerDisplay = '';
+                else integerDisplay = integerDigits.toLocaleString('id-ID', { maximumFractionDigits: 0 });
+                return decimalDigits != null ? `${integerDisplay},${decimalDigits}` : integerDisplay;
+            }
+
+            updateDisplay() {
+                this.currentOperandTextElement.innerText = this.getDisplayNumber(this.currentOperand);
+                if (this.operation != null) {
+                    this.previousOperandTextElement.innerText = `${this.getDisplayNumber(this.previousOperand)} ${this.operation}`;
+                } else {
+                    this.previousOperandTextElement.innerText = '';
+                }
+            }
+
+            // History Logic (Diupdate ke panel kanan)
+            addHistory(calcString, result) {
+                const entry = { calc: calcString, res: result };
+                this.history.unshift(entry);
+                if (this.history.length > 20) this.history.pop();
+                this.renderHistory();
+            }
+
+            renderHistory() {
+                const container = document.getElementById('history-list');
+                container.innerHTML = '';
+                
+                if (this.history.length === 0) {
+                    container.innerHTML = `<div class="flex flex-col items-center justify-center h-full text-gray-400 opacity-50"><i class="fas fa-calculator text-2xl mb-2"></i><span class="text-xs">Belum ada data</span></div>`;
+                    return;
+                }
+
+                this.history.forEach(item => {
+                    const div = document.createElement('div');
+                    div.className = 'history-item flex flex-col items-end bg-white/50 p-2 rounded-xl cursor-pointer hover:bg-white hover:shadow-sm transition mb-1 border border-transparent hover:border-pink-100';
+                    div.onclick = () => { this.currentOperand = item.res; this.updateDisplay(); };
+                    div.innerHTML = `
+                        <div class="text-[10px] text-gray-500">${item.calc}</div>
+                        <div class="text-lg text-primary font-bold">${this.getDisplayNumber(item.res)}</div>
+                    `;
+                    container.appendChild(div);
+                });
+            }
+
+            clearHistory() {
+                this.history = [];
+                this.renderHistory();
+            }
+
+            // Memory Logic
+            memoryPlus() { this.memory += parseFloat(this.currentOperand); this.toggleMemInd(); }
+            memoryMinus() { this.memory -= parseFloat(this.currentOperand); this.toggleMemInd(); }
+            memoryRecall() { this.currentOperand = this.memory; this.updateDisplay(); }
+            memoryClear() { this.memory = 0; this.toggleMemInd(); }
+            toggleMemInd() {
+                document.getElementById('memory-indicator').style.opacity = this.memory !== 0 ? '1' : '0';
+            }
+        }
+
+        const calc = new Calculator(
+            document.querySelector('[data-previous-operand]'), 
+            document.querySelector('[data-current-operand]')
+        );
+
+        document.querySelectorAll('button').forEach(btn => {
+            btn.addEventListener('click', () => {
+                if(btn.dataset.number) { calc.appendNumber(btn.dataset.number); calc.updateDisplay(); }
+                if(btn.dataset.operation) { calc.chooseOperation(btn.dataset.operation); calc.updateDisplay(); }
+                if(btn.dataset.action === 'equals') { calc.compute(); calc.updateDisplay(); }
+                if(btn.dataset.action === 'c') { calc.clear(); calc.updateDisplay(); }
+                if(btn.dataset.action === 'ce') { calc.clearEntry(); calc.updateDisplay(); }
+                if(btn.dataset.action === 'delete') { calc.delete(); calc.updateDisplay(); }
+            });
+        });
+
+        window.addEventListener('keydown', e => {
+            if((e.key >= 0 && e.key <= 9) || e.key === '.') { calc.appendNumber(e.key); calc.updateDisplay(); }
+            if(['+','-','*','/'].includes(e.key)) { 
+                const map = {'*':'×', '/':'÷'}; 
+                calc.chooseOperation(map[e.key] || e.key); calc.updateDisplay(); 
+            }
+            if(e.key === 'Enter' || e.key === '=') { e.preventDefault(); calc.compute(); calc.updateDisplay(); }
+            if(e.key === 'Backspace') { calc.delete(); calc.updateDisplay(); }
+            if(e.key === 'Escape') { calc.clear(); calc.updateDisplay(); }
+        });
+    </script>
+</body>
+</html>
