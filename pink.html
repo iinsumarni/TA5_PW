@@ -35,11 +35,11 @@
     <style>
         body { background: linear-gradient(135deg, #ffe6fa 0%, #ffd1e8 100%); }
         
-        /* Hide Scrollbar */
+        
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
-        /* Glassmorphism */
+       
         .glass-panel {
             background: rgba(255, 255, 255, 0.55);
             backdrop-filter: blur(20px);
@@ -226,7 +226,6 @@
                 }
             }
 
-            // History Logic (Diupdate ke panel kanan)
             addHistory(calcString, result) {
                 const entry = { calc: calcString, res: result };
                 this.history.unshift(entry);
@@ -260,7 +259,6 @@
                 this.renderHistory();
             }
 
-            // Memory Logic
             memoryPlus() { this.memory += parseFloat(this.currentOperand); this.toggleMemInd(); }
             memoryMinus() { this.memory -= parseFloat(this.currentOperand); this.toggleMemInd(); }
             memoryRecall() { this.currentOperand = this.memory; this.updateDisplay(); }
